@@ -55,6 +55,7 @@ resource "aws_lb_listener" "http_redirect" {
   }
 }
 
+
 resource "aws_lb_target_group_attachment" "ec2_to_tg" {
   target_group_arn =  aws_lb_target_group.app_tg.arn
   target_id        = var.target_id

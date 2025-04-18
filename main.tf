@@ -43,7 +43,7 @@ module "ec2" {
   instance_name = var.instance_name
   key_name = var.key_name
   subnet_id = module.vpc.dr_project_public_subnets[0]
-  security_group_ids = [module.security_group.load_security_g_name]
+  security_group_ids = [module.security_group.ec2_security_g_name]
   associate_public_ip_address = var.associate_public_ip_address
   user_data_install_docker = file("./scripts/install_docker.sh")
 }

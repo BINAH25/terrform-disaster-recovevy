@@ -74,6 +74,20 @@ resource "aws_vpc_security_group_ingress_rule" "ec2_sg_ingress_rule" {
 }
 
 # create ingress rule
+resource "aws_vpc_security_group_ingress_rule" "ec2_sg_ingress_rule1" {
+  description       = "Allow  HTTP from alb"
+  security_group_id = aws_security_group.ec2_sg.id
+  referenced_security_group_id = aws_security_group.alb_sg.id
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+
+  tags = {
+    Name = var.ec2_sg_name
+  }
+}
+
+# create ingress rule
 resource "aws_vpc_security_group_ingress_rule" "ec2_sg_ingress_rule_2" {
   description       = "Allow remote SSH from anywhere"
   security_group_id = aws_security_group.ec2_sg.id
@@ -113,7 +127,7 @@ resource "aws_security_group" "db_sg" {
 resource "aws_vpc_security_group_ingress_rule" "db_sg_ingress_rule" {
   description       = "Allow  HTTPS from alb"
   security_group_id = aws_security_group.db_sg.id
-  referenced_security_group_id = aws_security_group.alb_sg.id
+  referenced_security_group_id = aws_security_group.ec2_sg.id
   from_port         = 5432
   ip_protocol       = "tcp"
   to_port           = 5432

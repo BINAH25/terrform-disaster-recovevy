@@ -37,7 +37,7 @@ chmod +x ~/.docker/cli-plugins/docker-compose
 
 # Add current user to docker group 
 sudo usermod -aG docker $USER
-
+cd /home/ubuntu
 git clone https://github.com/BINAH25/file-server.git
 cd file-server/document_distribution
 sudo docker compose up --build -d
