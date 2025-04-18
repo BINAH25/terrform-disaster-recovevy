@@ -45,3 +45,15 @@ variable "db_security_group" {
   type = string
   description = "security for database"
 }
+
+variable "replicate_from_primary" {
+  description = "Set to true if this is a replica RDS"
+  type        = bool
+  default     = false
+}
+
+variable "source_db_arn" {
+  description = "ARN of the source DB to replicate from"
+  type        = string
+  default     = ""
+}

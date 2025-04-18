@@ -1,14 +1,31 @@
 variable "domain_name" {
-  description = "Root domain (e.g. seyram.site)"
-  type        = string
+  type = string
 }
 
 variable "alb_dns_name" {
-  description = "DNS name of the ALB"
-  type        = string
+  type = string
 }
 
 variable "alb_zone_id" {
-  description = "Zone ID of the ALB"
-  type        = string
+  type = string
+}
+
+variable "failover_role" {
+  type    = string
+  default = "PRIMARY" 
+}
+
+variable "create_health_check" {
+  type    = bool
+  default = true
+}
+
+variable "health_check_fqdn" {
+  type    = string
+  default = ""
+}
+
+variable "create_www" {
+  type    = bool
+  default = true
 }
