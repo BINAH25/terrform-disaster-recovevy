@@ -38,6 +38,11 @@ output "db_hostname" {
 output "alb_dns_name" {
   value = module.alb_primary.alb_dns
 }
+output "health_check_id" {
+  value = module.route53_primary.health_check_id
+}
+
+
 # output "ec2_public_ip_address" {
 #   value = module.ec2_primary.terra_demo_proj_ec2_instance
 

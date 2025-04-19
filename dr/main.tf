@@ -23,9 +23,9 @@ module "security_group_dr" {
 
 
 module "rds_dr" {
-  source                  = "../rds_replica"
+  source                  = "../modeules/rds_replica"
 
-  source_db_arn       = data.terraform_remote_state.primary.outputs.db_instance_arn
+  source_db_arn           = data.terraform_remote_state.primary.outputs.db_instance_arn
   db_identifier           = var.db_identifier
   db_instance_class       = var.db_instance_class
   db_security_group       = module.security_group_dr.database_security_g_name
@@ -74,4 +74,17 @@ module "route53_dr" {
   create_health_check = true
   health_check_fqdn   = var.domain_name
   create_www          = false
+}
+
+module "monitoring_primary" {
+  source = "../modeules/monitoring"
+  health_check_id = data.terraform_remote_state.primary.outputs.health_check_id
+}
+
+
+module "lambda_failover" {
+  source = "../modeules/lambda_failover"
+  sns_topic_arn = module.monitoring_primary.sns_topic_arn
+  lambda_file     = "../scripts/lambda.zip"         
+  lambda_hash     = filebase64sha256("../scripts/lambda.zip")
 }
