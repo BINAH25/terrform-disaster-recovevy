@@ -36,12 +36,11 @@ module "rds_dr" {
 
 module "alb_dr" {
 
-  source             = "../modeules/alb"
+  source             = "../modeules/alb_dr"
   vpc_id             = module.vpc_dr.dr_project_vpc
   alb_sg_id          = module.security_group_dr.load_security_g_name
   public_subnets     = module.vpc_dr.dr_project_public_subnets
   project_name       = var.project_name
-  target_id          = module.ec2_dr.instance_id
   acm_cert_arn       = module.acm_dr.acm_cert_arn
 }
 
@@ -50,19 +49,29 @@ module "acm_dr" {
 
   domain_name        = var.domain_name
   alternative_names  = var.alternative_names
-  # hosted_zone_id     = module.route53_dr.hosted_zone_id
 }
 
-module "ec2_dr" {
-  
-  source = "../modeules/ec2"
-  instance_name = var.instance_name
-  key_name = var.key_name
-  subnet_id = module.vpc_dr.dr_project_public_subnets[0]
-  security_group_ids = [module.security_group_dr.ec2_security_g_name]
-  associate_public_ip_address = var.associate_public_ip_address
-  user_data_install_docker = file("../scripts/install_docker.sh")
+
+module "launch_template_dr" {
+  source = "../modeules/launch_template"
+
+  instance_name            = var.instance_name
+  key_name                 = var.key_name
+  security_group_ids       = [module.security_group_dr.ec2_security_g_name]
+  user_data_install_docker = base64encode(file("../scripts/install_docker.sh"))
+
 }
+
+module "autoscaling_group_dr" {
+  source = "../modeules/autoscaling_group"
+
+  instance_name            = var.instance_name
+  subnet_ids               = module.vpc_dr.dr_project_public_subnets
+  launch_template_id       = module.launch_template_dr.launch_template_id
+  launch_template_version  = module.launch_template_dr.launch_template_version
+  target_group_arns        = [module.alb_dr.target_group_arns]
+}
+
 
 module "route53_dr" {
   
