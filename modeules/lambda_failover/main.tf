@@ -18,13 +18,33 @@ resource "aws_iam_role_policy_attachment" "rds_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
 }
 
+resource "aws_iam_role_policy" "asg_access" {
+  name = "lambda-asg-policy"
+  role = aws_iam_role.lambda_exec.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "autoscaling:UpdateAutoScalingGroup",
+          "autoscaling:DescribeAutoScalingGroups"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 resource "aws_lambda_function" "failover" {
-  function_name = "rds-failover-lambda"
-  role          = aws_iam_role.lambda_exec.arn
-  handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.9"
-  filename      = var.lambda_file
+  function_name    = "rds-failover-lambda"
+  role             = aws_iam_role.lambda_exec.arn
+  handler          = "lambda_function.lambda_handler"
+  runtime          = "python3.9"
+  filename         = var.lambda_file
   source_code_hash = var.lambda_hash
+
 }
 
 resource "aws_lambda_permission" "allow_sns" {

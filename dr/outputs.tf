@@ -31,7 +31,7 @@ output "alb_dns_name" {
   value = module.alb_dr.alb_dns
 }
 output "health_check_id" {
-  value =  data.terraform_remote_state.primary.outputs.health_check_id
+  value = data.terraform_remote_state.primary.outputs.health_check_id
 }
 
 # output "ec2_public_ip_address" {

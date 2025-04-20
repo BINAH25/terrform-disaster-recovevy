@@ -1,8 +1,8 @@
 resource "aws_autoscaling_group" "ec2_asg" {
   name                      = "${var.instance_name}-asg"
-  desired_capacity          = 1
+  desired_capacity          = 0
   max_size                  = 2
-  min_size                  = 1
+  min_size                  = 0
   vpc_zone_identifier       = var.subnet_ids
   health_check_type         = "EC2"
   health_check_grace_period = 300

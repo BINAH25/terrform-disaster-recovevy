@@ -76,7 +76,7 @@ module "route53_primary" {
   alb_zone_id         = module.alb_primary.alb_zone_id
   failover_role       = "PRIMARY"
   create_health_check = true
-  health_check_fqdn   = var.domain_name
+  health_check_fqdn   = module.alb_primary.alb_dns
 }
 
 
