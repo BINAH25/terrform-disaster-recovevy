@@ -8,7 +8,7 @@ resource "aws_cloudwatch_metric_alarm" "r53_health_check_alarm" {
   evaluation_periods  = 1
   metric_name         = "HealthCheckStatus"
   namespace           = "AWS/Route53"
-  period              = 60
+  period              = 30
   statistic           = "Minimum"
   threshold           = 1
   alarm_description   = "Triggers if primary Route53 health check fails"
