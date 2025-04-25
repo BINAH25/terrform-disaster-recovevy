@@ -19,3 +19,8 @@ resource "aws_db_instance" "postgres" {
   backup_retention_period = 7
   deletion_protection     = false
 }
+
+resource "aws_db_snapshot" "postgres_snap" {
+  db_instance_identifier = aws_db_instance.postgres.identifier
+  db_snapshot_identifier = "postgres-snap"
+}

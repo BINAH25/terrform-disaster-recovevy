@@ -110,3 +110,13 @@ variable "associate_public_ip_address" {
   type    = bool
   default = true
 }
+
+variable "bucket_name" {
+  type = string
+}
+variable "export_task_identifier" {
+  type        = string
+}
+variable "name_prefix" {
+  type        = string
+}

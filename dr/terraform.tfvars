@@ -31,3 +31,9 @@ alternative_names = ["www.seyram.site"]
 # EC2 VARIABLES
 instance_name = "dr-project-ec2-pilot"
 key_name      = "binah"
+
+# S3
+bucket_name = "export-snapshot-us-east-1-v1"
+# Snapshot
+export_task_identifier = "postgree-db-snapshot"
+name_prefix = "rds-dr"

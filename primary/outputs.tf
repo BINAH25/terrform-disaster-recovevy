@@ -42,6 +42,9 @@ output "health_check_id" {
   value = module.route53_primary.health_check_id
 }
 
+output "db_snapshot_arn" {
+  value = module.rds_primary.db_snapshot_arn
+}
 
 # output "ec2_public_ip_address" {
 #   value = module.ec2_primary.terra_demo_proj_ec2_instance
