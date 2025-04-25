@@ -102,19 +102,20 @@ module "s3" {
   source = "../modeules/s3"
   bucket_name = var.bucket_name
 }
-module "snapshot" {
-  source = "../modeules/rds_export_to_s3"
-  snapshot_arn =  data.terraform_remote_state.primary.outputs.db_snapshot_arn
-  s3_bucket_name = module.s3.bucket_id
-  export_task_identifier = var.export_task_identifier
-}
 
-module "rds_export" {
-  source = "../modeules/event_bridge"
-  lambda_file     = "../scripts/export_snap.zip"         
-  lambda_hash     = filebase64sha256("../scripts/export_snap.zip")
-  s3_bucket = var.bucket_name
-  kms_key = module.snapshot.kms_key_arn
-  name_prefix = var.name_prefix
-}
+# module "snapshot" {
+#   source = "../modeules/rds_export_to_s3"
+#   snapshot_arn =  data.terraform_remote_state.primary.outputs.db_snapshot_arn
+#   s3_bucket_name = module.s3.bucket_id
+#   export_task_identifier = var.export_task_identifier
+# }
+
+# module "rds_export" {
+#   source = "../modeules/event_bridge"
+#   lambda_file     = "../scripts/export_snap.zip"         
+#   lambda_hash     = filebase64sha256("../scripts/export_snap.zip")
+#   s3_bucket = var.bucket_name
+#   kms_key = module.snapshot.kms_key_arn
+#   name_prefix = var.name_prefix
+# }
 
